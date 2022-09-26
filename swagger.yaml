@@ -1,0 +1,399 @@
+openapi: 3.0.3
+info:
+  title: Playlists API
+  version: 1.0.0
+tags:
+  - name: playlists
+    description: Playlists management
+  - name: tracks
+    description: Tracks management
+  - name: users
+    description: Users management
+paths:
+  /playlists:
+    get: # get playlists
+      tags:
+        - playlists
+      summary: Get all playlists
+      operationId: getPlaylists
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+    post: # create playlist
+      tags:
+        - playlists
+      summary: Create playlist
+      operationId: createPlaylist
+      parameters:
+        - name: Name
+          in: query
+          description: Playlist name
+          required: true
+          schema:
+            type: string
+        - name: isPublic
+          in: query
+          description: Is playlist public
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+  /playlists/{playlistId}:
+    parameters:
+      - name: playlistId
+        in: path
+        description: The id of the playlist
+        required: true
+        schema:
+          type: integer
+    get: # get playlist
+      tags:
+        - playlists
+      summary: Get a playlist
+      operationId: getPlaylist
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '404':
+          description: Not Found
+    put: # create/overwrite playlist
+      tags:
+        - playlists
+      summary: Update a playlist (create if does not exist)
+      operationId: updatePlaylist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Playlist'
+        required: true
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '400':
+          description: Bad Request
+    post: # add track to playlist (check isPublic and owner)
+      tags:
+        - playlists
+      summary: Add a track to a playlist
+      operationId: addTrackToPlaylist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Track'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+    delete: # remove playlist (check owner)
+      tags:
+        - playlists
+      summary: Delete a playlist
+      operationId: deletePlaylist
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+  /playlists/{playlistId}/tracks/{trackId}:
+    parameters:
+      - name: playlistId
+        in: path
+        description: Playlist ID
+        required: true
+        schema:
+          type: integer
+      - name: trackId
+        in: path
+        description: Track ID
+        required: true
+        schema:
+          type: string
+    delete: # remove track from playlist (check isPublic and owner)
+      tags:
+        - playlists
+      summary: Delete a track from a playlist
+      operationId: deletePlaylistTrack
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+
+  /tracks/{trackId}:
+    parameters:
+      - name: trackId
+        in: path
+        description: Track ID
+        required: true
+        schema:
+          type: string
+    get: # get track
+      tags:
+        - tracks
+      summary: Get a track
+      operationId: getTrack
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Track'
+        '404':
+          description: Not Found
+
+  /users:
+    get: # get users
+      tags:
+        - users
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+    post: # create user
+      tags:
+        - users
+      summary: Create a user
+      operationId: createUser
+      parameters:
+        - name: username
+          in: query
+          description: The username
+          required: true
+          schema:
+            type: string
+        - name: passwordHash
+          in: query
+          description: Hash of password
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+  /users/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        description: The id of the user
+        required: true
+        schema:
+          type: integer
+    get: # get user
+      tags:
+        - users
+      summary: Get a user
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+    put: # update user data
+      tags:
+        - users
+      summary: Edit user data
+      operationId: editUser
+      parameters:
+        - name: username
+          in: query
+          description: Username
+          required: true
+          schema:
+            type: string
+        - name: passwordHash
+          in: query
+          description: Hash of password
+          required: true
+          schema:
+            type: string
+        - name: newPasswordHash
+          in: query
+          description: New password hash
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+    delete: # remove user
+      tags:
+        - users
+      summary: Delete a user
+      operationId: deleteUser
+      parameters:
+        - name: passwordHash
+          in: query
+          description: Hash of password
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+
+  /search/tracks:
+    get: # search tracks
+      tags:
+        - tracks
+      summary: Search tracks
+      operationId: searchTracks
+      parameters:
+        - name: query
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Track'
+  /search/playlists:
+    get: # search playlists
+      tags:
+        - playlists
+      summary: Search playlists
+      operationId: searchPlaylists
+      parameters:
+        - name: query
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+  /search/users:
+    get: # search users
+      tags:
+        - users
+      summary: Search users
+      operationId: searchUsers
+      parameters:
+        - name: query
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+components:
+  schemas:
+    Track:
+      type: object
+      properties:
+        id:
+          type: string
+          example: DK6IRG4CAbw
+        title:
+          type: string
+          example: KORDHELL - KILLERS FROM THE NORTHSIDE
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: roflanmen
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Playlist'
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: My playlist
+        isPublic:
+          type: boolean
+          example: true
+        owner:
+          $ref: '#/components/schemas/User'
+        tracks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Track'
