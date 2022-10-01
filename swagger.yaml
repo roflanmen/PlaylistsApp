@@ -7,8 +7,8 @@ tags:
     description: Playlists management
   - name: tracks
     description: Tracks management
-  - name: users
-    description: Users management
+  - name: user
+    description: User management
 paths:
   /playlists:
     get: # get playlists
@@ -50,6 +50,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Playlist'
+      security:
+        - bearerAuth: []
   /playlists/{playlistId}:
     parameters:
       - name: playlistId
@@ -70,8 +72,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Playlist'
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
+      security:
+        - bearerAuth: []
     put: # create/overwrite playlist
       tags:
         - playlists
@@ -92,7 +98,11 @@ paths:
                 $ref: '#/components/schemas/Playlist'
         '400':
           description: Bad Request
-    post: # add track to playlist (check isPublic and owner)
+        '403':
+          description: Forbidden
+      security:
+        - bearerAuth: []
+    post: # add track to playlist
       tags:
         - playlists
       summary: Add a track to a playlist
@@ -112,9 +122,13 @@ paths:
                 $ref: '#/components/schemas/Playlist'
         '400':
           description: Bad Request
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
-    delete: # remove playlist (check owner)
+      security:
+        - bearerAuth: []
+    delete: # remove playlist
       tags:
         - playlists
       summary: Delete a playlist
@@ -122,8 +136,12 @@ paths:
       responses:
         '204':
           description: No Content
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
+      security:
+        - bearerAuth: []
   /playlists/{playlistId}/tracks/{trackId}:
     parameters:
       - name: playlistId
@@ -146,8 +164,12 @@ paths:
       responses:
         '204':
           description: No Content
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
+      security:
+        - bearerAuth: []
 
   /tracks/{trackId}:
     parameters:
@@ -172,24 +194,10 @@ paths:
         '404':
           description: Not Found
 
-  /users:
-    get: # get users
-      tags:
-        - users
-      summary: Get all users
-      operationId: getUsers
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+  /user:
     post: # create user
       tags:
-        - users
+        - user
       summary: Create a user
       operationId: createUser
       parameters:
@@ -214,7 +222,52 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
-  /users/{userId}:
+  /user/login:
+    post: # login user
+      tags:
+        - user
+      summary: Login a user
+      operationId: loginUser
+      parameters:
+        - name: username
+          in: query
+          description: The username
+          required: true
+          schema:
+            type: string
+        - name: passwordHash
+          in: query
+          description: Hash of password
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK, gives token
+          headers:
+            X-Expires-After:
+              description: date in UTC when token expires
+              schema:
+                type: string
+                format: date-time
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password provided
+  /user/logout:
+    post: # logout user
+      tags:
+        - user
+      summary: Logout a user
+      operationId: logoutUser
+      responses:
+        '200':
+          description: OK
+      security:
+        - bearerAuth: []
+  /user/{userId}:
     parameters:
       - name: userId
         in: path
@@ -224,7 +277,7 @@ paths:
           type: integer
     get: # get user
       tags:
-        - users
+        - user
       summary: Get a user
       operationId: getUser
       responses:
@@ -238,7 +291,7 @@ paths:
           description: Not Found
     put: # update user data
       tags:
-        - users
+        - user
       summary: Edit user data
       operationId: editUser
       parameters:
@@ -269,11 +322,15 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
-        '404':
+        '403':
+          description: Forbidden
+        '404': 
           description: Not Found
+      security:
+        - bearerAuth: []
     delete: # remove user
       tags:
-        - users
+        - user
       summary: Delete a user
       operationId: deleteUser
       parameters:
@@ -286,9 +343,12 @@ paths:
       responses:
         '204':
           description: No Content
+        '403':
+          description: Forbidden
         '404':
           description: Not Found
-
+      security:
+        - bearerAuth: []
   /search/tracks:
     get: # search tracks
       tags:
@@ -336,7 +396,7 @@ paths:
   /search/users:
     get: # search users
       tags:
-        - users
+        - user
       summary: Search users
       operationId: searchUsers
       parameters:
@@ -356,6 +416,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
   schemas:
     Track:
       type: object
