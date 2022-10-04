@@ -11,7 +11,7 @@ tags:
     description: User management
 paths:
   /playlists:
-    get: # get playlists
+    get: # get all public playlists
       tags:
         - playlists
       summary: Get all playlists
@@ -30,19 +30,16 @@ paths:
         - playlists
       summary: Create playlist
       operationId: createPlaylist
-      parameters:
-        - name: Name
-          in: query
-          description: Playlist name
-          required: true
-          schema:
-            type: string
-        - name: isPublic
-          in: query
-          description: Is playlist public
-          required: true
-          schema:
-            type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                isPublic:
+                  type: boolean
       responses:
         '201':
           description: Created
@@ -76,30 +73,6 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
-      security:
-        - bearerAuth: []
-    put: # create/overwrite playlist
-      tags:
-        - playlists
-      summary: Update a playlist (create if does not exist)
-      operationId: updatePlaylist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Playlist'
-        required: true
-      responses:
-        '201':
-          description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Playlist'
-        '400':
-          description: Bad Request
-        '403':
-          description: Forbidden
       security:
         - bearerAuth: []
     post: # add track to playlist
@@ -140,6 +113,49 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+      security:
+        - bearerAuth: []
+  /playlists/{playlistId}/updatePlaylist:
+    parameters:
+      - name: playlistId
+        in: path
+        description: Playlist ID
+        required: true
+        schema:
+          type: integer
+    put: # create/overwrite playlist
+      tags:
+        - playlists
+      summary: Update a playlist
+      operationId: updatePlaylist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: My playlist
+                isPublic:
+                  type: boolean
+                  example: true
+                tracks:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Track'
+        required: true
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
       security:
         - bearerAuth: []
   /playlists/{playlistId}/tracks/{trackId}:
@@ -200,19 +216,18 @@ paths:
         - user
       summary: Create a user
       operationId: createUser
-      parameters:
-        - name: username
-          in: query
-          description: The username
-          required: true
-          schema:
-            type: string
-        - name: passwordHash
-          in: query
-          description: Hash of password
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Sanjo
+                passwordHash:
+                  type: string
+                  example: sd355ohf2348d
       responses:
         '201':
           description: Created
@@ -228,22 +243,21 @@ paths:
         - user
       summary: Login a user
       operationId: loginUser
-      parameters:
-        - name: username
-          in: query
-          description: The username
-          required: true
-          schema:
-            type: string
-        - name: passwordHash
-          in: query
-          description: Hash of password
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Sanjo
+                passwordHash:
+                  type: string
+                  example: sd355ohf2348d
       responses:
         '200':
-          description: OK, gives token
+          description: OK 
           headers:
             X-Expires-After:
               description: date in UTC when token expires
@@ -265,6 +279,8 @@ paths:
       responses:
         '200':
           description: OK
+        '400':
+          description: Invalid token provided
       security:
         - bearerAuth: []
   /user/{userId}:
@@ -294,25 +310,21 @@ paths:
         - user
       summary: Edit user data
       operationId: editUser
-      parameters:
-        - name: username
-          in: query
-          description: Username
-          required: true
-          schema:
-            type: string
-        - name: passwordHash
-          in: query
-          description: Hash of password
-          required: true
-          schema:
-            type: string
-        - name: newPasswordHash
-          in: query
-          description: New password hash
-          required: false
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Sanjo
+                passwordHash:
+                  type: string
+                  example: sd355ohf2348d
+                newPasswordHash:
+                  type: string
+                  example: sd355ohf2348d
       responses:
         '200':
           description: OK
