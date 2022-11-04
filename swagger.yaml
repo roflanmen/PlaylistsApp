@@ -158,10 +158,7 @@ paths:
             schema:
               type: object
               properties:
-                playlist_id:
-                  type: integer
-                  example: 1
-                youtube_od:
+                youtube_id:
                   type: string
                   example: "_E3FGh4b04s"
         required: true
