@@ -9,6 +9,8 @@ tags:
     description: Tracks management
   - name: user
     description: User management
+  - name: search
+    description: Search system
 paths:
   /playlists:
     get: # get all public playlists
@@ -38,7 +40,7 @@ paths:
               properties:
                 name:
                   type: string
-                isPublic:
+                is_public:
                   type: boolean
       responses:
         '201':
@@ -75,6 +77,76 @@ paths:
           description: Not Found
       security:
         - bearerAuth: []
+    delete: # remove playlist
+      tags:
+        - playlists
+      summary: Delete a playlist
+      operationId: deletePlaylist
+      responses:
+        '204':
+          description: No Content
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+      security:
+        - bearerAuth: []
+    put: # create/overwrite playlist
+      tags:
+        - playlists
+      summary: Update a playlist
+      operationId: updatePlaylist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                is_public:
+                  type: boolean
+              
+        required: true
+      responses:
+        '201':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Playlist'
+        '400':
+          description: Bad Request
+        '403':
+          description: Forbidden
+      security:
+        - bearerAuth: []
+  /playlists/{playlistId}/tracks:
+    parameters:
+      - name: playlistId
+        in: path
+        description: Playlist ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - playlists
+      summary: Get all tracks from a playlist
+      operationId: getAllPlaylistTracks
+      responses:
+        '200':
+          description: Ok
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TrackInPlaylist'
+        '400':
+          description: Bad request
+        '404':
+          description: Playlist not found
     post: # add track to playlist
       tags:
         - playlists
@@ -84,7 +156,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Track'
+              type: object
+              properties:
+                youtube_id:
+                  type: string
+                  example: "_E3FGh4b04s"
         required: true
       responses:
         '200':
@@ -101,21 +177,7 @@ paths:
           description: Not Found
       security:
         - bearerAuth: []
-    delete: # remove playlist
-      tags:
-        - playlists
-      summary: Delete a playlist
-      operationId: deletePlaylist
-      responses:
-        '204':
-          description: No Content
-        '403':
-          description: Forbidden
-        '404':
-          description: Not Found
-      security:
-        - bearerAuth: []
-  /playlists/{playlistId}/updatePlaylist:
+  /playlists/{playlistId}/tracks/{youtube_id}:
     parameters:
       - name: playlistId
         in: path
@@ -123,56 +185,13 @@ paths:
         required: true
         schema:
           type: integer
-    put: # create/overwrite playlist
-      tags:
-        - playlists
-      summary: Update a playlist
-      operationId: updatePlaylist
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: My playlist
-                isPublic:
-                  type: boolean
-                  example: true
-                tracks:
-                  type: array
-                  items:
-                    $ref: '#/components/schemas/Track'
-        required: true
-      responses:
-        '201':
-          description: Updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Playlist'
-        '400':
-          description: Bad Request
-        '403':
-          description: Forbidden
-      security:
-        - bearerAuth: []
-  /playlists/{playlistId}/tracks/{trackId}:
-    parameters:
-      - name: playlistId
-        in: path
-        description: Playlist ID
-        required: true
-        schema:
-          type: integer
-      - name: trackId
+      - name: youtube_id
         in: path
         description: Track ID
         required: true
         schema:
           type: string
-    delete: # remove track from playlist (check isPublic and owner)
+    delete: # remove track from playlist (check is_public and owner)
       tags:
         - playlists
       summary: Delete a track from a playlist
@@ -225,7 +244,7 @@ paths:
                 username:
                   type: string
                   example: Sanjo
-                passwordHash:
+                password:
                   type: string
                   example: sd355ohf2348d
       responses:
@@ -252,7 +271,7 @@ paths:
                 username:
                   type: string
                   example: Sanjo
-                passwordHash:
+                password:
                   type: string
                   example: sd355ohf2348d
       responses:
@@ -319,10 +338,10 @@ paths:
                 username:
                   type: string
                   example: Sanjo
-                passwordHash:
+                password:
                   type: string
                   example: sd355ohf2348d
-                newPasswordHash:
+                newPassword:
                   type: string
                   example: sd355ohf2348d
       responses:
@@ -346,7 +365,7 @@ paths:
       summary: Delete a user
       operationId: deleteUser
       parameters:
-        - name: passwordHash
+        - name: password
           in: query
           description: Hash of password
           required: true
@@ -364,7 +383,7 @@ paths:
   /search/tracks:
     get: # search tracks
       tags:
-        - tracks
+        - search
       summary: Search tracks
       operationId: searchTracks
       parameters:
@@ -386,7 +405,7 @@ paths:
   /search/playlists:
     get: # search playlists
       tags:
-        - playlists
+        - search
       summary: Search playlists
       operationId: searchPlaylists
       parameters:
@@ -408,7 +427,7 @@ paths:
   /search/users:
     get: # search users
       tags:
-        - user
+        - search
       summary: Search users
       operationId: searchUsers
       parameters:
@@ -433,15 +452,27 @@ components:
       type: http
       scheme: bearer
   schemas:
-    Track:
+    TrackInPlaylist:
       type: object
       properties:
-        id:
-          type: string
-          example: DK6IRG4CAbw
         title:
           type: string
           example: KORDHELL - KILLERS FROM THE NORTHSIDE
+        playlist_id:
+          type: integer
+          example: 1
+        youtube_id:
+          type: string
+          example: DK6IRG4CAbw
+    Track:
+      type: object
+      properties:
+        title:
+          type: string
+          example: KORDHELL - KILLERS FROM THE NORTHSIDE
+        youtube_id:
+          type: string
+          example: DK6IRG4CAbw
     User:
       type: object
       properties:
@@ -453,7 +484,7 @@ components:
           example: roflanmen
         playlists:
           type: array
-          items:
+          items: 
             $ref: '#/components/schemas/Playlist'
     Playlist:
       type: object
@@ -464,12 +495,13 @@ components:
         name:
           type: string
           example: My playlist
-        isPublic:
+        is_public:
           type: boolean
           example: true
-        owner:
-          $ref: '#/components/schemas/User'
+        owner_id:
+          type: integer
+          example: 1
         tracks:
           type: array
-          items:
-            $ref: '#/components/schemas/Track'
+          items: 
+            $ref: '#/components/schemas/TrackInPlaylist'
