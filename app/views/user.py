@@ -56,6 +56,8 @@ def update_user(user_id):
         return jsonify({'message': 'Incorrect password'}), 400
     try:
         if user.__contains__('username'):
+            if db.session.query(models.User).filter(models.User.username == user['username']).count() != 0:
+                return jsonify({'message': 'User already exists'}), 400
             user_to_update.username = user['username']
         if user.__contains__('new_password'):
             user_to_update.password = bcrypt.generate_password_hash(user['new_password']).decode('utf-8')
