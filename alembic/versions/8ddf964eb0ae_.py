@@ -1,4 +1,4 @@
-"""Init commit
+"""empty message
 
 Revision ID: 8ddf964eb0ae
 Revises: 
