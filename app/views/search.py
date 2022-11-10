@@ -22,7 +22,7 @@ def search_users():
     res = []
     for user in users:
         res.append({'id': user.id, 'name': user.username, 'playlists': []})
-        for playlist in db.session.query(models.Playlist).filter(models.Playlist.owner_id == user.id).all():
+        for playlist in db.session.query(models.Playlist).filter(models.Playlist.owner_id == user.id, models.Playlist.is_public == False).all():
             res[-1]['playlists'].append(get_playlist_by_id(playlist.id))
     return jsonify(res), 200
 
