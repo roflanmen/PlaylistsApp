@@ -22,13 +22,13 @@ def search_users():
     res = []
     for user in users:
         res.append({'id': user.id, 'name': user.username, 'playlists': []})
-        for playlist in db.session.query(models.Playlist).filter(models.Playlist.owner_id == user.id, models.Playlist.is_public == False).all():
+        for playlist in db.session.query(models.Playlist).filter(models.Playlist.owner_id == user.id, models.Playlist.is_public == True).all():
             res[-1]['playlists'].append(get_playlist_by_id(playlist.id))
     return jsonify(res), 200
 
 @search_bp.route('/playlists/', methods=['GET'])
 def search_playlists():
-    playlists = db.session.query(models.Playlist).filter(models.Playlist.name.like('%' + request.args['query'] + '%')).all()
+    playlists = db.session.query(models.Playlist).filter(models.Playlist.name.like('%' + request.args['query'] + '%'), models.Playlist.is_public == True).all()
     res = []
     for playlist in playlists:
         res.append(get_playlist_by_id(playlist.id))

@@ -2,10 +2,6 @@ from sqlalchemy import *
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, backref
 import datetime
 import jwt
-from app.db import engine
-from app import app
-
-Session = sessionmaker(bind=engine)
 
 Base = declarative_base()
 
