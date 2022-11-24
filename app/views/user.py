@@ -79,10 +79,12 @@ def login():
     access_token = create_access_token(identity=db_user.id)
     return jsonify({'token': access_token}), 200
 
+
 @user_bp.route('/logout', methods=['POST'])
 @jwt_required()
 def logout():
     return jsonify({'message': 'Logged out'}), 200
+
 
 @user_bp.route('/<int:user_id>', methods=['GET'])
 @jwt_required(optional=True)

@@ -4,8 +4,6 @@ import app.db as db
 
 def get_playlist_by_id(playlist_id: int) -> dict:
     playlist = db.session.query(models.Playlist).filter(models.Playlist.id == playlist_id).first()
-    if playlist is None:
-        return 
     res = {"id": playlist.id, "name": playlist.name, "is_public": playlist.is_public, "owner_id": playlist.owner_id, "tracks": get_tracks_from_playlist(playlist.id)}
     return res
 
@@ -35,8 +33,6 @@ def create_entry(Class, **kwargs):
 
 def update_entry(Class, id, **kwargs):
     entry = db.session.query(Class).filter(Class.id == id).first()
-    if entry is None:
-        return
     for key, value in kwargs.items():
         setattr(entry, key, value)
     db.session.commit()
