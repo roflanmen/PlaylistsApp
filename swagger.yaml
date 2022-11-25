@@ -91,7 +91,7 @@ paths:
           description: Not Found
       security:
         - bearerAuth: []
-    put: # create/overwrite playlist
+    put: # update playlist
       tags:
         - playlists
       summary: Update a playlist
@@ -129,24 +129,6 @@ paths:
         required: true
         schema:
           type: integer
-    get:
-      tags:
-        - playlists
-      summary: Get all tracks from a playlist
-      operationId: getAllPlaylistTracks
-      responses:
-        '200':
-          description: Ok
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/TrackInPlaylist'
-        '400':
-          description: Bad request
-        '404':
-          description: Playlist not found
     post: # add track to playlist
       tags:
         - playlists
@@ -230,6 +212,20 @@ paths:
           description: Not Found
 
   /user:
+    get: # get user
+      tags:
+        - user
+      summary: Get a user
+      operationId: getUser
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
     post: # create user
       tags:
         - user
@@ -256,74 +252,6 @@ paths:
                 $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
-  /user/login:
-    post: # login user
-      tags:
-        - user
-      summary: Login a user
-      operationId: loginUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  type: string
-                  example: Sanjo
-                password:
-                  type: string
-                  example: sd355ohf2348d
-      responses:
-        '200':
-          description: OK 
-          headers:
-            X-Expires-After:
-              description: date in UTC when token expires
-              schema:
-                type: string
-                format: date-time
-          content:
-            application/json:
-              schema:
-                type: string
-        '400':
-          description: Invalid username/password provided
-  /user/logout:
-    post: # logout user
-      tags:
-        - user
-      summary: Logout a user
-      operationId: logoutUser
-      responses:
-        '200':
-          description: OK
-        '400':
-          description: Invalid token provided
-      security:
-        - bearerAuth: []
-  /user/{userId}:
-    parameters:
-      - name: userId
-        in: path
-        description: The id of the user
-        required: true
-        schema:
-          type: integer
-    get: # get user
-      tags:
-        - user
-      summary: Get a user
-      operationId: getUser
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '404':
-          description: Not Found
     put: # update user data
       tags:
         - user
@@ -380,6 +308,67 @@ paths:
           description: Not Found
       security:
         - bearerAuth: []
+  /user/login:
+    post: # login user
+      tags:
+        - user
+      summary: Login a user
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: Sanjo
+                password:
+                  type: string
+                  example: sd355ohf2348d
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: Invalid username/password provided
+  /user/logout:
+    post: # logout user
+      tags:
+        - user
+      summary: Logout a user
+      operationId: logoutUser
+      responses:
+        '200':
+          description: OK
+      security:
+        - bearerAuth: []
+  /user/{userId}:
+    parameters:
+      - name: userId
+        in: path
+        description: The id of the user
+        required: true
+        schema:
+          type: integer
+    get: # get user
+      tags:
+        - user
+      summary: Get a user
+      operationId: getMe
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: Not Found
+
   /search/tracks:
     get: # search tracks
       tags:
@@ -452,18 +441,6 @@ components:
       type: http
       scheme: bearer
   schemas:
-    TrackInPlaylist:
-      type: object
-      properties:
-        title:
-          type: string
-          example: KORDHELL - KILLERS FROM THE NORTHSIDE
-        playlist_id:
-          type: integer
-          example: 1
-        youtube_id:
-          type: string
-          example: DK6IRG4CAbw
     Track:
       type: object
       properties:
@@ -504,4 +481,4 @@ components:
         tracks:
           type: array
           items: 
-            $ref: '#/components/schemas/TrackInPlaylist'
+            $ref: '#/components/schemas/Track'
