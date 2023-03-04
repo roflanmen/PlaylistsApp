@@ -95,7 +95,7 @@ def get_user(user_id):
 
     playlists = db.session.query(models.Playlist).filter(
         models.Playlist.owner_id == user_id
-    ).all() if ((get_jwt_identity() == user_id)) else db.session.query(models.Playlist).filter(
+    ).all() if ((get_jwt_identity() == user_id) or is_admin(get_jwt_identity())) else db.session.query(models.Playlist).filter(
         models.Playlist.owner_id == user_id,
         models.Playlist.is_public == True
     ).all()

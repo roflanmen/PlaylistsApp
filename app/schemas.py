@@ -3,6 +3,7 @@ from marshmallow import Schema, fields
 class UserToCreate(Schema):
     username = fields.Str(required=True)
     password = fields.Str(required=True)
+    is_admin = fields.Bool()
 
 class UserToUpdate(Schema):
     username = fields.Str()

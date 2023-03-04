@@ -45,3 +45,9 @@ def delete_entry(Class, id):
     db.session.delete(entry)
     db.session.commit()
     return entry
+
+def is_admin(id):
+    user = get_entry(models.User, id)
+    if user is None:
+        return False
+    return user.is_admin

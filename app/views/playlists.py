@@ -39,7 +39,7 @@ def get_playlist(playlist_id):
     if not playlist.is_public:
         if get_jwt_identity() is None:
             return jsonify({'message': 'Unauthorized'}), 401
-        if get_jwt_identity() != playlist.owner_id:
+        if get_jwt_identity() != playlist.owner_id and not is_admin(get_jwt_identity()):
             return jsonify({'message': 'Forbidden'}), 403
     return jsonify(get_playlist_by_id(playlist.id)), 200
 
@@ -54,7 +54,7 @@ def update_playlist(playlist_id):
     db_playlist = get_entry(models.Playlist, playlist_id)
     if db_playlist is None:
         return jsonify({'message': 'Playlist not found'}), 404
-    if get_jwt_identity() != db_playlist.owner_id:
+    if get_jwt_identity() != db_playlist.owner_id and not is_admin(get_jwt_identity()):
         return jsonify({'message': 'Forbidden'}), 403
     update_entry(models.Playlist, playlist_id, **playlist)
     return jsonify(get_playlist_by_id(playlist_id)), 200
@@ -65,7 +65,7 @@ def delete_playlist(playlist_id):
     playlist = get_entry(models.Playlist, playlist_id)
     if playlist is None:
         return jsonify({'message': 'Playlist not found'}), 404
-    if get_jwt_identity() != playlist.owner_id:
+    if get_jwt_identity() != playlist.owner_id and not is_admin(get_jwt_identity()):
         return jsonify({'message': 'Forbidden'}), 403
     delete_entry(models.Playlist, playlist_id)
     return jsonify({'message': 'Playlist deleted'}), 200
@@ -82,7 +82,7 @@ def add_track_to_playlist(playlist_id):
     if playlist is None:
         return jsonify({'message': 'Playlist not found'}), 404
     
-    if get_jwt_identity() != playlist.owner_id:
+    if get_jwt_identity() != playlist.owner_id and not is_admin(get_jwt_identity()):
         return jsonify({'message': 'Forbidden'}), 403
 
     if db.session.query(models.TracksInPlaylist).filter(models.TracksInPlaylist.youtube_id == track['youtube_id'], models.TracksInPlaylist.playlist_id == playlist_id).count() != 0:
@@ -102,7 +102,7 @@ def delete_track_from_playlist(playlist_id, youtube_id):
     playlist = get_entry(models.Playlist, playlist_id)
     if playlist is None:
         return jsonify({'message': 'Playlist not found'}), 404
-    if playlist.owner_id != get_jwt_identity():
+    if playlist.owner_id != get_jwt_identity() and not is_admin(get_jwt_identity()):
         return jsonify({'message': 'Forbidden'}), 403
     track = db.session.query(models.TracksInPlaylist).filter(models.TracksInPlaylist.playlist_id == playlist_id, models.TracksInPlaylist.youtube_id == youtube_id).first()
     if track is None:

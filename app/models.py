@@ -18,6 +18,8 @@ class User(Base):
     id = Column(Integer, Identity(start=1, cycle=False), primary_key=True, nullable=False)
     username = Column(String(64), nullable=False)
     password = Column(String(256), nullable=False)
+    is_admin = Column(Boolean, nullable=False, default=False)
+    # Admin can view all playlists, edit and delete them
 
 class TracksInPlaylist(Base):
     __tablename__ = "tracks_in_playlists"
