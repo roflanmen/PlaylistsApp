@@ -1,7 +1,5 @@
 from sqlalchemy import *
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship, backref
-import datetime
-import jwt
 
 Base = declarative_base()
 
