@@ -16,7 +16,7 @@ search_bp = Blueprint('search', __name__, url_prefix='/search')
 def search_tracks():
     res = []
     for result in Search(request.args['query']).results:
-        res.append({'title': result.title, 'id': result.video_id})
+        res.append(get_track_info(result.video_id))
     return jsonify(res), 200
 
 @search_bp.route('/users/', methods=['GET'])
@@ -24,7 +24,7 @@ def search_users():
     users = db.session.query(models.User).filter(models.User.username.like('%' + request.args['query'] + '%')).all()
     res = []
     for user in users:
-        res.append({'id': user.id, 'name': user.username})
+        res.append({'id': user.id, 'username': user.username})
     return jsonify(res), 200
 
 @search_bp.route('/playlists/', methods=['GET'])
