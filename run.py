@@ -1,4 +1,4 @@
-from waitress import serve
 from app import app
-import os
-serve(app, host='localhost', port=os.environ.get('PORT', 5000))
+
+if __name__ == "__main__":
+    app.run(debug=True)
