@@ -11,4 +11,7 @@ session = Session()
 
 if config.is_testing:
     metadata.drop_all(engine)
-metadata.create_all(engine)
+try:
+    metadata.create_all(engine)
+except:
+    pass
