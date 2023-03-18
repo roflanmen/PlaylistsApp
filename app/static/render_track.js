@@ -1,13 +1,20 @@
-function renderTrack(youtube_id, element_id) {
-    player = new YT.Player(element_id, {
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player = document.createElement('div');
+player.id = 'player';
+
+
+window.onYouTubeIframeAPIReady = function() {
+    document.body.appendChild(player);
+    player.style.display = 'none';
+    player = new YT.Player('player', {
         height: '0',
         width: '0',
-        videoId: youtube_id,
+        videoId: 'dQw4w9WgXcQ',
     });
-}
-var player;
-window.onYouTubeIframeAPIReady = function() {
-    renderTrack('dQw4w9WgXcQ', 'player');
 }
 
 function toggleTrack(id){

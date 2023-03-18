@@ -12,7 +12,7 @@ from flask_jwt_extended import (
 )
 jwt = JWTManager(app)
 
-user_bp = Blueprint('user', __name__, url_prefix='/user')
+user_bp = Blueprint('user', __name__, url_prefix='/api/user')
 bcrypt = Bcrypt()
 
 @user_bp.route('/', methods=['POST'])

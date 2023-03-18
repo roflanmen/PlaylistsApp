@@ -10,12 +10,12 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity
 )
 
-search_bp = Blueprint('search', __name__, url_prefix='/search')
+search_bp = Blueprint('search', __name__, url_prefix='/api/search')
 
 @search_bp.route('/tracks/', methods=['GET'])
 def search_tracks():
     res = []
-    for result in Search(request.args['query']).results:
+    for result in Search(request.args['query']).results[:10]:
         res.append(get_track_info(result.video_id))
     return jsonify(res), 200
 

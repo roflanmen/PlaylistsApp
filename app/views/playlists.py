@@ -9,7 +9,7 @@ from flask_jwt_extended import (
     JWTManager, jwt_required, get_jwt_identity
 )
 jwt = JWTManager(app)
-playlists_bp = Blueprint('playlists', __name__, url_prefix='/playlists')
+playlists_bp = Blueprint('playlists', __name__, url_prefix='/api/playlists')
 
 @playlists_bp.route('/', methods=['GET'])
 def get_playlists():
