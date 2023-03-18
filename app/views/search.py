@@ -15,7 +15,7 @@ search_bp = Blueprint('search', __name__, url_prefix='/api/search')
 @search_bp.route('/tracks/', methods=['GET'])
 def search_tracks():
     res = []
-    for result in Search(request.args['query']).results[:10]:
+    for result in Search(request.args['query']).results[:5]:
         res.append(get_track_info(result.video_id))
     return jsonify(res), 200
 

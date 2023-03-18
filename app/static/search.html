@@ -6,7 +6,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-	<script src="render_track.js"></script>
+	<script src="player.js"></script>
 	<script src="search.js"></script>
 </head>
 <body>
@@ -18,7 +18,7 @@
 			</div>
 		</a>
 		<form class="search-form" action="search.html">
-			<input type="text" name="query" placeholder="Search..." class="search-input">
+			<input type="text" name="query" placeholder="Search..." class="search-input" required>
 			<button type="submit" class="search-button">Search</button>
 		</form>
 		<nav class="header-nav">
@@ -34,14 +34,10 @@
 		<h1 class="page-title">Search results</h1>
         <div class="wrapper">
             <h2>Users</h2>
-            <div class="search-results">
-                <a href="profile.html" class="username">roflanmen</a><br>
-                <a href="profile.html" class="username">neskip</a><br>
+            <div class="search-results" id="users">
             </div>
             <h2>Playlists</h2>
-            <div class="search-results">
-                <a href="playlist.html" class="playlist">playlist1</a><br>
-                <a href="playlist.html" class="playlist">playlist2</a><br>
+            <div class="search-results" id="playlists">
             </div>
             <h2>Tracks</h2>
             <div class="search-results" id="tracks">

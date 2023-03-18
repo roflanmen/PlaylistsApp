@@ -6,6 +6,8 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+	<script src="player.js"></script>
+	<script src="user.js"></script>
 </head>
 <body>
 	<header class="main-header">
@@ -16,7 +18,7 @@
 			</div>
 		</a>
 		<form class="search-form" action="search.html">
-			<input type="text" name="query" placeholder="Search..." class="search-input">
+			<input type="text" name="query" placeholder="Search..." class="search-input" required>
 			<button type="submit" class="search-button">Search</button>
 		</form>
 		<nav class="header-nav">
@@ -31,26 +33,9 @@
 
 	<main>
 		<h1 class="page-title">Profile</h1>
-		<div class="wrapper">
-			<p><span class="username">roflanmen</span></p>
+		<div class="wrapper" id="wrapper">
+			<p><span class="username"></span></p>
 			<h2 class="block-name">Playlists:</h2>
-
-			<a href="playlist.html" class="playlist-title">chill</a><br>
-			<div class="playlist">
-				<div class="song">
-					<button class="play-button"><img src="play-button.png"></button>
-					<p>Nightcore - Whispers In The Dark<p>
-				</div>
-				<div class="song">
-					<button class="play-button"><img src="play-button.png"></button>
-					<p>guitar phonk<p>
-				</div>
-				<div class="song">
-					<button class="play-button"><img src="play-button.png"></button>
-					<p>KORDHELL - MURDER PLOT<p>
-				</div>
-			</div>
-			
 		</div>
         
 	</main>

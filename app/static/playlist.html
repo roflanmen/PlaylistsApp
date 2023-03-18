@@ -6,9 +6,10 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-	<script src="render_track.js"></script></head>
+	<script src="player.js"></script>
+	<script src="playlist.js"></script>
+</head>
 <body>
-	<div id="player"></div>
 	<header class="main-header">
         <a href="/">
 			<div class="logo-name">
@@ -17,7 +18,7 @@
 			</div>
 		</a>
 		<form class="search-form" action="search.html">
-			<input type="text" name="query" placeholder="Search..." class="search-input">
+			<input type="text" name="query" placeholder="Search..." class="search-input" required>
 			<button type="submit" class="search-button">Search</button>
 		</form>
 		<nav class="header-nav">
@@ -32,8 +33,8 @@
 	<main>
         <h1 class="page-title">Playlist name</h1>
         <div class="wrapper">
-            <div class="playlist">
-				<div class="control-buttons">
+            <div class="playlist" id="playlist">
+				<!-- <div class="control-buttons">
 					<div>
 						<button class="play-button"><img src="play-button.png"></button>
 						<p>Play<p>
@@ -42,21 +43,7 @@
 						<button class="play-button"><img src="shuffle-button.png"></button>
 						<p>Shuffle<p>
 					</div>
-					
-				</div>
-				
-                <div class="song">
-                    <button class="play-button" onclick="toggleTrack('kpwNjdEPz7E')"><img src="play-button.png"></button>
-					<p>Bruh bruh<p>
-                </div>
-                <div class="song">
-                    <button class="play-button" onclick="toggleTrack('dQw4w9WgXcQ')"><img src="play-button.png"></button>
-					<p>Bruh bruh bruh<p>
-                </div>
-                <div class="song">	
-					<button class="play-button"><img src="play-button.png"></button>
-					<p>Bruh bruh bruh bruh<p>
-				</div>
+				</div> -->
             </div>
         </div>
 		
