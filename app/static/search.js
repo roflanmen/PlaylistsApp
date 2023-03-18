@@ -7,7 +7,7 @@ window.fetch(`/api/search/tracks/?query=${params.get('query')}`)
             const trackDiv = document.createElement('div');
             trackDiv.className = 'song';
             trackDiv.innerHTML = `
-                <button class="play-button" onclick="toggleTrack('${track.youtube_id}')"><img src="play-button.png"></button>
+                <button class="control-button" onclick="toggleTrack('${track.youtube_id}')"><img src="play-button.png"></button>
                 <p>${track.title}<p>
             `;
             document.getElementById('tracks').appendChild(trackDiv);

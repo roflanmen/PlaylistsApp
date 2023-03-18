@@ -41,9 +41,27 @@
             </div>
             <h2>Tracks</h2>
             <div class="search-results" id="tracks">
-				
             </div>
         </div>
+		<div id="player-controls">
+			<div class="control-buttons">
+				<button class="control-button"><img src="previous-button.png"></button>
+				<button class="control-button" onclick="toggleTrack()"><img src="play-button.png"></button>
+				<button class="control-button" onclick="toggleTrack()"><img src="pause-button.png"></button>
+				<button class="control-button"><img src="next-button.png"></button>
+				<button class="control-button"><img src="repeat-button.png"></button>
+			</div>
+
+			<div class="time">
+				<span class="current-time" id="current-time">00:00</span>
+			</div>
+			<div class="progress">
+				<input type="range" min="0" max="1000" value="0" id="progress-bar">
+			</div>
+			<div class="time">
+				<span class="duration" id="duration">00:00</span>
+			</div>
+		</div>
 	</main>
 </body>
 </html>
