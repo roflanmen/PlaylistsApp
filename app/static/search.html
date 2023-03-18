@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Playlists</title>
+	<link rel="stylesheet" href="styles.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+</head>
+<body>
+	<header class="main-header">
+        <a href="/">
+			<div class="logo-name">
+				<img src="favicon.ico" alt="Logo" class="logo">
+				<h1>Playlists</h1>
+			</div>
+		</a>
+		<form class="search-form">
+			<input type="text" name="search" placeholder="Search..." class="search-input">
+			<button type="submit" class="search-button">Search</button>
+		</form>
+		<nav class="header-nav">
+			<ul>
+				<li><a href="register.html">Register</a></li>
+				<li><a href="login.html">Login</a></li>
+				<li><a href="#">Logout</a></li>
+				<li><a href="profile.html">Profile</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<h1 class="page-title">Search results</h1>
+        <div class="wrapper">
+            <h2>Users</h2>
+            <div class="search-results">
+                <a href="profile.html" class="username">roflanmen</a><br>
+                <a href="profile.html" class="username">neskip</a><br>
+            </div>
+            <h2>Playlists</h2>
+            <div class="search-results">
+                <a href="playlist.html" class="playlist">playlist1</a><br>
+                <a href="playlist.html" class="playlist">playlist2</a><br>
+            </div>
+            <h2>Tracks</h2>
+            <div class="search-results">
+				<div class="song">
+					<button class="play-button"><img src="play-button.png"></button>
+					<p>Nightcore - Whispers In The Dark<p>
+				</div>
+				<div class="song">
+					<button class="play-button"><img src="play-button.png"></button>
+					<p>guitar phonk<p>
+				</div>
+				<div class="song">
+					<button class="play-button"><img src="play-button.png"></button>
+					<p>KORDHELL - MURDER PLOT<p>
+				</div>
+            </div>
+        </div>
+	</main>
+</body>
+</html>

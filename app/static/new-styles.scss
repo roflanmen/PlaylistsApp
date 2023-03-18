@@ -1,0 +1,102 @@
+$primary-color: #6b30a9;
+$secondary-color: #a456cc;
+$background-color: #161223;
+$text-color: #fff;
+$font-family: 'Roboto', sans-serif;
+
+// Main header styles
+.main-header {
+  background-color: $background-color;
+  color: $text-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  
+  @media screen and (max-width: 960px) {
+    flex-direction: column;
+    > * {
+      margin: 15px;
+    }
+  }
+
+  .logo {
+    height: 50px;
+  }
+  .search-form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 2rem;
+
+    .search-input {
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid $text-color;
+      color: $text-color;
+      font-family: $font-family;
+      font-size: 1rem;
+      padding: 0.5rem;
+      margin-right: 0.5rem;
+      width: 10rem;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .search-button {
+      background-color: $primary-color;
+      border: none;
+      color: $text-color;
+      font-family: $font-family;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background-color: $secondary-color;
+      }
+    }
+  }
+
+  nav {
+    ul {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      list-style: none;
+      margin-right: 2rem;
+
+      li {
+        margin-left: 2rem;
+
+        a {
+          color: $text-color;
+          font-family: $font-family;
+          font-size: 1rem;
+          text-decoration: none;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            color: $secondary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Main content styles
+main {
+  padding-top: 4rem;
+
+  // Custom styles for page content go here
+}

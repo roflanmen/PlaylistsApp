@@ -1,0 +1,197 @@
+html, body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: #1b1729;
+  color: rgb(234, 234, 234);
+  font-family: "Roboto", sans-serif;
+}
+html a, html a:visited, html button, body a, body a:visited, body button {
+  color: rgb(234, 234, 234);
+  text-decoration: none;
+}
+html button, body button {
+  background-color: rgba(0, 0, 0, 0);
+}
+html input, html textarea, html select, body input, body textarea, body select {
+  background-color: #1b1729;
+  color: rgb(234, 234, 234);
+}
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  padding: 15px;
+  padding-left: 30px;
+  background-color: #0d0c15;
+  font-family: "Roboto", sans-serif;
+}
+.main-header .logo {
+  height: 50px;
+  margin-right: 20px;
+}
+@media screen and (max-width: 960px) {
+  .main-header {
+    flex-direction: column;
+  }
+  .main-header > * {
+    margin: 15px;
+  }
+}
+.main-header .logo-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+.search-form .search-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+.search-form .search-button:hover {
+  color: #a456cc;
+}
+.search-form input {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 5px;
+}
+
+.header-nav ul {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+.header-nav li {
+  margin: 0 10px;
+}
+.header-nav a {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+.header-nav a:hover {
+  color: #a456cc;
+}
+
+.register-form, .login-form, .edit-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+.register-form .form-input, .login-form .form-input, .edit-form .form-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ffffff;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+.register-form .form-button, .login-form .form-button, .edit-form .form-button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+.register-form .form-button:hover, .login-form .form-button:hover, .edit-form .form-button:hover {
+  color: #a456cc;
+}
+
+.page-title {
+  text-align: center;
+  margin: 20px;
+}
+
+.register-button:hover,
+.login-button:hover,
+.profile-button:hover {
+  background-color: #a456cc;
+}
+
+main {
+  color: rgb(234, 234, 234);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Roboto", sans-serif;
+}
+main .wrapper {
+  display: flex;
+  justify-content: left;
+  align-items: left;
+  flex-direction: column;
+  width: 80%;
+  max-width: 800px;
+  padding: 10px 25px;
+  border-radius: 5px;
+  background-color: #0d0c15;
+}
+
+.song {
+  display: flex;
+  align-items: left;
+  flex-direction: row;
+  margin: 5px;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  padding: 5px;
+}
+.song p {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  margin-left: 5px;
+}
+
+.play-button {
+  border-radius: 100%;
+  border: none;
+  width: 35px;
+  height: 35px;
+  position: relative;
+}
+.play-button img {
+  width: 70%;
+  height: 70%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -35%;
+}
+
+.playlist p {
+  margin-block-start: 0.5em;
+  margin-block-end: 0.5em;
+  margin-left: 5px;
+}
+
+.control-buttons {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+}
+.control-buttons div {
+  display: flex;
+  flex-direction: row;
+}
+
+/*# sourceMappingURL=styles.css.map */

@@ -1,6 +1,8 @@
 import config
 from flask import Flask
-app = Flask(__name__)
+app = Flask(__name__,
+            static_url_path='', 
+            static_folder='static')
 app.config['SECRET_KEY'] = 'super-secret'
 
 app.config["SQLALCHEMY_DATABASE_STR"] = "sqlite:///main.db" 
@@ -14,5 +16,10 @@ app.register_blueprint(user.user_bp)
 app.register_blueprint(tracks.tracks_bp)
 
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
 
-
+@app.route('/<path>')
+def static_proxy(path):
+    return app.send_static_file(path)
