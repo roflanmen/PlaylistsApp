@@ -1,4 +1,5 @@
 let params = new URLSearchParams(window.location.search);
+console.log(params.get('query'), window.location.search);
 let res = window.fetch("/api/search/tracks/?query=" + params.get('query'))
     .then(res => res.json())
     .then(res => {
