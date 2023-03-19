@@ -61,10 +61,11 @@ function toggleTrack(id = null) {
     }
     document.getElementById('player-controls').style.display = 'flex';
     player.setVolume(40);
-    if (player.getPlaylistIndex() !== id) {
+    if (player.getPlaylistIndex() != id) {
+        console.log(id, player.getPlaylistIndex());
         player.playVideoAt(id);
     } else {
-        if (player.getPlayerState() === 1) {
+        if (player.getPlayerState() == 1) {
             player.pauseVideo();
         } else {
             player.playVideo();
