@@ -185,6 +185,7 @@ main {
   width: $control-button-size;
   height: $control-button-size;
   position: relative;
+  transition: all 0.5s ease-in-out;
   img {
     width: 70%;
     height: 70%;
@@ -192,6 +193,11 @@ main {
     top: 50%;
     left: 50%;
     margin: -35%;
+  }
+  opacity: 0.7;
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
   }
 }
 

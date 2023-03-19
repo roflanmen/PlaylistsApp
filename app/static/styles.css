@@ -168,6 +168,8 @@ main .wrapper {
   width: 35px;
   height: 35px;
   position: relative;
+  transition: all 0.5s ease-in-out;
+  opacity: 0.7;
 }
 .control-button img {
   width: 70%;
@@ -176,6 +178,10 @@ main .wrapper {
   top: 50%;
   left: 50%;
   margin: -35%;
+}
+.control-button:hover {
+  cursor: pointer;
+  opacity: 1;
 }
 
 .playlist p {

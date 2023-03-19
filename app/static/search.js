@@ -2,16 +2,20 @@ const params = new URLSearchParams(window.location.search);
 window.fetch(`/api/search/tracks/?query=${params.get('query')}`)
     .then((tracks) => tracks.json())
     .then((tracks) => {
+        let i = 0;
         tracks.forEach((track) => {
             if (!track) { return; }
             const trackDiv = document.createElement('div');
             trackDiv.className = 'song';
             trackDiv.innerHTML = `
-                <button class="control-button" onclick="toggleTrack('${track.youtube_id}')"><img src="play-button.png"></button>
+                <button class="control-button" onclick="toggleTrack('${i}')"><img src="play-button.png"></button>
                 <p>${track.title}<p>
             `;
             document.getElementById('tracks').appendChild(trackDiv);
+            tracksJson.push(track);
+            i++;
         });
+        makeQueue();
     });
 window.fetch(`/api/search/playlists/?query=${params.get('query')}`)
     .then((playlists) => playlists.json())
