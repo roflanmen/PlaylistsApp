@@ -15,9 +15,10 @@ let tracksJson = [];
 window.onYouTubeIframeAPIReady = function () {
     document.body.appendChild(player);
     player = new YT.Player('player', {
+        playerVars: { 'autoplay': 0 },
         height: '1',
         width: '1',
-        videoId: 'dQw4w9WgXcQ'
+        videoId: 'dQw4w9WgXcQ',
     });
     function onPlayerReady(event) {
         setInterval(() => {
@@ -62,7 +63,6 @@ function toggleTrack(id = null) {
     document.getElementById('player-controls').style.display = 'flex';
     player.setVolume(40);
     if (player.getPlaylistIndex() != id) {
-        console.log(id, player.getPlaylistIndex());
         player.playVideoAt(id);
     } else {
         if (player.getPlayerState() == 1) {
@@ -85,7 +85,7 @@ function makeQueue(){
         queue.push(track.youtube_id);
     });
     currentlyPlaying = 0;
-    player.loadPlaylist(queue);
+    player.cuePlaylist(queue);
     player.setLoop(true);
 
     document.getElementById('previous').onclick = () => {  
