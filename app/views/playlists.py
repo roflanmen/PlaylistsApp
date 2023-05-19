@@ -43,6 +43,16 @@ def get_playlist(playlist_id):
             return jsonify({'message': 'Forbidden'}), 403
     return jsonify(get_playlist_by_id(playlist.id)), 200
 
+@playlists_bp.route('/<int:playlist_id>/check_ownership', methods=['GET'])
+@jwt_required()
+def get_playlist_ownership(playlist_id):
+    playlist = get_entry(models.Playlist, playlist_id)
+
+    if get_jwt_identity() == playlist.owner_id or is_admin(get_jwt_identity()):
+        return jsonify({'result': True}), 200
+    return jsonify({'result': False}), 403
+
+
 @playlists_bp.route('/<int:playlist_id>/', methods=['PUT'])
 @jwt_required()
 def update_playlist(playlist_id):

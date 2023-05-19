@@ -15,9 +15,10 @@ search_bp = Blueprint('search', __name__, url_prefix='/api/search')
 @search_bp.route('/tracks/', methods=['GET'])
 def search_tracks():
     res = []
-    for result in Search(request.args['query']).results[:5]:
-        res.append(get_track_info(result.video_id))
-    return jsonify(res), 200
+    tracks = 10
+    for result in Search(request.args['query']).results:
+        res.append({"title": result.title, "youtube_id": result.video_id})
+    return jsonify(res[:tracks]), 200
 
 @search_bp.route('/users/', methods=['GET'])
 def search_users():
@@ -30,7 +31,13 @@ def search_users():
 @search_bp.route('/playlists/', methods=['GET'])
 @jwt_required(optional=True)
 def search_playlists():
-    playlists = db.session.query(models.Playlist).filter(models.Playlist.name.like('%' + request.args['query'] + '%'), models.Playlist.is_public == (True if is_admin(get_jwt_identity()) == False else False)).all()
+    if is_admin(get_jwt_identity()):
+        playlists = db.session.query(models.Playlist).\
+                    filter(models.Playlist.name.like('%' + request.args['query'] + '%')).all()
+    else:
+        playlists = db.session.query(models.Playlist).\
+                    filter(models.Playlist.name.like('%' + request.args['query'] + '%'), 
+                           models.Playlist.is_public == True).all()
     res = []
     for playlist in playlists:
         res.append(get_playlist_by_id(playlist.id))

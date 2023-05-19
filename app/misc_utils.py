@@ -12,12 +12,12 @@ def get_tracks_from_playlist(playlist_id: int) -> list:
     return [{"title": track.title, "youtube_id": track.youtube_id} for track in tracks]
 
 def get_track_info(track_id: str) -> dict:
-    try:
-        video = YouTube('https://www.youtube.com/watch?v=' + track_id)
-        res = {'title': video.title, 'youtube_id': track_id}
-    except:
-        return
-    return res
+    for _ in range(3):
+        try:
+            video = YouTube('https://www.youtube.com/watch?v=' + track_id)
+            return {'title': video.title, 'youtube_id': track_id}
+        except:
+            pass
 
 def get_entry(Class, id):
     entry = db.session.query(Class).filter(Class.id == id).first()

@@ -6,6 +6,7 @@ import app.models as models
 import app.db as db
 from app.schemas import *
 from app import app
+from datetime import timedelta
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
@@ -61,9 +62,16 @@ def update_user():
 @user_bp.route('/', methods=['DELETE'])
 @jwt_required()
 def delete_user():
-    if delete_entry(models.User, get_jwt_identity()) is None:
-        return jsonify({'message': 'User not found'}), 404
-    return jsonify({'message': 'User deleted'}), 200
+    return delete_user_by_id(get_jwt_identity())
+
+@user_bp.route('/<int:user_id>', methods=['DELETE'])
+@jwt_required()
+def delete_user_by_id(user_id):
+    if is_admin(get_jwt_identity()) or user_id == get_jwt_identity():
+        if delete_entry(models.User, user_id) is None:
+            return jsonify({'message': 'User not found'}), 404
+        return jsonify({'message': 'User deleted'}), 200
+    return jsonify({'message': 'Unauthorized'}), 401
 
 @user_bp.route('/login', methods=['POST'])
 def login():
@@ -76,7 +84,7 @@ def login():
         return jsonify({'message': 'User not found'}), 404
     if not bcrypt.check_password_hash(db_user.password, user['password']):
         return jsonify({'message': 'Incorrect password'}), 400
-    access_token = create_access_token(identity=db_user.id)
+    access_token = create_access_token(identity=db_user.id, expires_delta=timedelta(days=1))
     return jsonify({'token': access_token}), 200
 
 
@@ -100,7 +108,7 @@ def get_user(user_id):
         models.Playlist.is_public == True
     ).all()
 
-    res = {'id': user.id, 'username': user.username, 'playlists': []}
+    res = {'id': user.id, 'username': user.username, 'playlists': [], 'is_admin': user.is_admin}
     for playlist in playlists:
         res['playlists'].append(get_playlist_by_id(playlist.id))
     return jsonify(res), 200
