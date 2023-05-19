@@ -1,4 +1,4 @@
-from app import app
-
+from app import socketio, app
+import os
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app, debug=True, port=os.environ.get('PORT', 8000))
