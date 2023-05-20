@@ -33,7 +33,7 @@ PyJWT==2.6.0
 pyparsing==3.0.9
 python-engineio==4.4.1
 python-socketio==5.8.0
-pytube==12.1.0
+pytube==15.0.0
 scramp==1.4.1
 six==1.16.0
 SQLAlchemy==1.4.41
