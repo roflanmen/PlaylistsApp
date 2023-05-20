@@ -47,7 +47,8 @@ export default {
     mounted() {
         let self = this;
         setTimeout(function(){
-            self.socket = io("ws://localhost:5000/api/chat");
+            self.socket = io("ws://playlists.herokuapp.com/api/chat");
+            // self.socket = io("ws://localhost:8000/api/chat");
             self.socket.on('connect', function() {
                 console.log('connected')
             });
@@ -55,8 +56,13 @@ export default {
                 self.messages.push({
                     content: data,
                 });
-                var chat__messages = document.getElementsByClassName("chat__messages")[0];
-                chat__messages.scrollTop = chat__messages.scrollHeight;
+                try {
+                    var chat__messages = document.getElementsByClassName("chat__messages")[0];
+                    chat__messages.scrollTop = chat__messages.scrollHeight;
+                } catch (error) {
+                    // pass
+                    
+                }
 
             });
         }, 1000)
