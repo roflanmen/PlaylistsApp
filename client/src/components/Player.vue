@@ -1,5 +1,5 @@
 <template>
-    <div id="player-controls" v-if="playing">
+    <div id="player-controls" v-if="showPlayer">
         <div class="control-buttons">
             <button class="control-button" id="previous" @click="previous()">
                 <img src="@/assets/img/previous-button.png">
@@ -40,6 +40,7 @@ export default {
             currentTime: 0,
             player: null,
             playing: false,
+            showPlayer: false,
             currentTrack: null,
         };
     },
@@ -63,6 +64,7 @@ export default {
             }
             this.player.playVideo();
             this.playing = true;
+            this.showPlayer = true;
         },
         pause(){
             this.player.pauseVideo();

@@ -1,12 +1,10 @@
 <template>
   <div id="app">
     <header class="main-header">
-      <router-link to="/">
         <div class="logo-name">
           <img src="@/assets/img/favicon.png" alt="Logo" class="logo">
           <h1>Playlists</h1>
         </div>
-      </router-link>
       <form class="search-form" @submit.stop.prevent="submit">
         <input type="text" name="query" placeholder="Search..." 
                class="search-input" required v-model="searchQuery">
