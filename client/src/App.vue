@@ -122,8 +122,10 @@ export default {
             .then((response) => {
                 if (response.status === 200){
                     this.logged = true;
+                    this.$router.push({ name: 'Profile' });
                 } else {
                     localStorage.removeItem('token');
+                    this.$router.push({ name: 'Login' });
                 }
             });
             fetch('/api/user/', {

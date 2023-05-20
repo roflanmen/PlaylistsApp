@@ -1,5 +1,5 @@
 <template>
-    <div id="player-controls">
+    <div id="player-controls" v-if="playing">
         <div class="control-buttons">
             <button class="control-button" id="previous" @click="previous()">
                 <img src="@/assets/img/previous-button.png">
