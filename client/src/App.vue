@@ -118,10 +118,7 @@ export default {
                 },
             })
             .then((response) => {
-                if (response.status === 200){
-                    this.logged = true;
-                    this.$router.push({ name: 'Profile' });
-                } else {
+                if (response.status !== 200){
                     localStorage.removeItem('token');
                     this.$router.push({ name: 'Login' });
                 }
